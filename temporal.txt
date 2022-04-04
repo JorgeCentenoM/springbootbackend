@@ -1,0 +1,38 @@
+//csv (comma separated file)
+nombre;apellido1;apellido2;asignatura1;asignatura2
+pepe;domingez;sanchez;html;programacion
+
+//resources _ES _UK                 se usa para temas de interacionalizacion
+menu=menu
+click=pulsar
+titule=titulo
+
+json
+{
+    alumnos: [
+        alumno: {
+            nombre:"pepe",
+            apellido1:"gomez",
+            apellido2:"puhga"
+            asignaturaFav:["html, programacion"]
+        },
+        alumno: {
+            nombre:"pepe",
+            apellido1:"gomez",
+            apellido2:"puhga"
+            asignaturaFav:["html, programacion"]   
+        }
+    ]
+}
+
+
+
+xml
+
+
+yaml
+
+alumnos
+    alumno
+        nombre: pepe
+        edad: 33
