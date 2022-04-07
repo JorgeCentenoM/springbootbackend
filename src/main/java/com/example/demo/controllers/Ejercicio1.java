@@ -1,13 +1,28 @@
 package com.example.demo.controllers;
 
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Map;
+
+import com.example.demo.models.Person;
+import com.example.demo.services.RickAndMortyService;
 import com.example.demo.utils.Utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Ejercicio1 {
+    @Autowired
+    RickAndMortyService rickAndMortyService;
+
+
     // http://localhost:8080/
    @GetMapping("/") 
     public String greet(){
@@ -27,6 +42,59 @@ public class Ejercicio1 {
         // if(name.equals(reversedName)) return "Si es un palindromo";
        // else return "No es un palindromo";
     }
+    //http://localhost:8080/sumar?num1=5num2=2
+    @GetMapping("/sumar")
+    public String add(@RequestParam String num1, @RequestParam String num2){
+        int resultado = Integer.parseInt(num1)+Integer.parseInt(num2);
+        Object params[] = {num1, num2, resultado};
+        return MessageFormat.format("La suma de {0} y {1} es {2}", params);
+    }
 
-    
+    @PostMapping("/saveProductOnDisk")
+    public String saveProductOnDisk(@RequestParam Map<String, String> body){
+        //obtener los datos de un producto {articulo, precio}
+        String article = body.get("article");
+        String price = body.get("price");
+        
+        //valido que el articulo precio no sean vacios
+        if(article.equals("") || price.equals(""))   return "Error, datos incorrectos";
+       
+        //valido que el precio no sea negativo
+        if(Integer.parseInt(price) < 0)   return "Error el precio es negativo";
+
+        //guardo en el disco duro esa informacion
+        try {
+            Utils.save("datos.txt", article+", "+price+"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error al guardar en disco";
+        }
+
+        //devuelvo un msg al cliente "producto guarddado correctamente"
+        return "Producto guardado correctamente";
+    }
+
+    @DeleteMapping("/removeFile")
+    public String removeFile(){
+        boolean result = Utils.remove("datos.txt");
+        return result ? "borrado correcto":"no se puede borrar";
+    }
+
+    @GetMapping("/rickandmorty")
+    public String getRickMortyRandomPic(){
+        Person c = rickAndMortyService.getCharacterFromAPI();
+        return "<img src='"+ c.image+"'/>";
+    }
+
+    @GetMapping("/rickandmortylist")
+    public String getRickMortyList(){
+        String web = "<h1>Lista de personas</h1>";
+        ArrayList<Person> persons =rickAndMortyService.getCharacterListFromAPI();
+        for (Person person : persons) {
+            web+="<img src='"+ person.image+"'/>";
+        }
+        return web;
+    }
+
 }
+
