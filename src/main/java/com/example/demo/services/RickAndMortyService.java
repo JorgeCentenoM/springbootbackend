@@ -24,7 +24,19 @@ public class RickAndMortyService {
         return character;
     }
 
+    public ArrayList<Person> getAllCharacterListFromAPI(){
+        ArrayList<Person> allPersons = new ArrayList<>();
+       for(int i=1; i<=42; i++){
+        String url = "https://rickandmortyapi.com/api/character/"+i;
+        Persons persons = restTemplate.getForObject(url, Persons.class);
+        allPersons.addAll(persons.results);
+      } 
+       return allPersons;
+    }
+
+    
     public ArrayList<Person> getCharacterListFromAPI(){
+
         String url = "https://rickandmortyapi.com/api/character/";
         Persons persons = restTemplate.getForObject(url, Persons.class);
         return persons.results;

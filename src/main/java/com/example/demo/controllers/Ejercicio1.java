@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 public class Ejercicio1 {
@@ -95,6 +97,15 @@ public class Ejercicio1 {
         }
         return web;
     }
+
+    @GetMapping("/chiste")
+    public String addJoke(@RequestParam String text) {
+    
+
+        
+        return "";
+    }
+    
 
 }
 
