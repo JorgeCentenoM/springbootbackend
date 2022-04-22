@@ -107,7 +107,13 @@ public class Ejercicio1 {
     @GetMapping("/listarchistes")
     public String listJokes(){
         ArrayList<Joke> jokes = jokeservice.getALLJokes();
-        return jokes.toString();
+        String listado= " ";
+        for (Joke joke : jokes) {
+            listado+= joke.getText();
+            listado+= "<br/>";
+
+        }
+        return listado;
     }
 
     @PostMapping("/insertarchiste")
