@@ -5,7 +5,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.example.demo.models.Joke;
 import com.example.demo.models.Person;
+import com.example.demo.services.JokeService;
 import com.example.demo.services.RickAndMortyService;
 import com.example.demo.utils.Utils;
 
@@ -23,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class Ejercicio1 {
     @Autowired
     RickAndMortyService rickAndMortyService;
+
+    @Autowired
+    JokeService jokeservice;
 
 
     // http://localhost:8080/
@@ -98,12 +103,22 @@ public class Ejercicio1 {
         return web;
     }
 
-    @GetMapping("/chiste")
-    public String addJoke(@RequestParam String text) {
-    
+
+    @GetMapping("/listarchistes")
+    public String listJokes(){
+        ArrayList<Joke> jokes = jokeservice.getALLJokes();
+        return jokes.toString();
+    }
+
+    @PostMapping("/insertarchiste")
+    public String addJoke(@RequestParam Map<String, String> body) {
+        String jokeText = body.get("text");
+        Joke joke = new Joke();
+        joke.setText(jokeText);
+        jokeservice.saveJoke(joke);
 
         
-        return "";
+        return "Chiste creado correctamente";
     }
     
 

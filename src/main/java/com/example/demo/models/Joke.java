@@ -17,6 +17,14 @@ public class Joke {
     
     @Column(nullable = false)
     String text;
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
 
 //create table joke(id long primary key auto_increment, text varchar(200) not null)
